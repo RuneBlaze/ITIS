@@ -177,7 +177,7 @@ if (-e "$tmp_dir/$proj.ref_and_te.sam"){
 	process_cmd($cmd);
 }
 
-$cmd = "samtools index $tmp_dir/$proj.ref_and_te.sorted.bam";
+$cmd = "samtools index $tmp_dir/$proj.ref_and_te.sorted";
 process_cmd($cmd);
 
 ###### check  te seq id in te seq file####
@@ -207,7 +207,7 @@ foreach my $te (@tes){
 	process_cmd($cmd);
 	$cmd = "samtools view -buS $tmp_dir/$proj.$te.informative.sam | samtools sort -o $tmp_dir/$proj.$te.informative.sorted";
 	process_cmd($cmd);
-	$cmd = "samtools index $tmp_dir/$proj.$te.informative.sorted.bam";
+	$cmd = "samtools index $tmp_dir/$proj.$te.informative.sorted";
 	process_cmd($cmd);
 
 
@@ -222,7 +222,7 @@ foreach my $te (@tes){
 
 	$cmd = "samtools view -buS $tmp_dir/${proj}.$te.support.reads.sam | samtools sort -o $tmp_dir/${proj}.$te.support.reads.sorted ";
 	process_cmd($cmd);
-	$cmd = "samtools index   $tmp_dir/${proj}.$te.support.reads.sorted.bam " ;
+	$cmd = "samtools index   $tmp_dir/${proj}.$te.support.reads.sorted" ;
 	process_cmd($cmd);
 	###### 
 

@@ -146,9 +146,9 @@ my $transformtobed_bam ;
 if($fast =~ /N/i and $bam == 0){
 	$cmd = "$bwa mem -T 20 -t $cpu_bwa $index_ref $rs1_ori $rs2_ori 2>/dev/null | samtools view -@ $cpu_view -buS - | samtools sort -@ $cpu_sort -o $tmp_dir/$proj.all_reads_aln_ref_and_te.sort";
 	process_cmd($cmd);
-	$transformtobed_bam = "-b $tmp_dir/$proj.all_reads_aln_ref_and_te.sort.bam";
+	$transformtobed_bam = "-b $tmp_dir/$proj.all_reads_aln_ref_and_te.sort";
 	
-	$cmd = "samtools index $tmp_dir/$proj.all_reads_aln_ref_and_te.sort.bam";
+	$cmd = "samtools index $tmp_dir/$proj.all_reads_aln_ref_and_te.sort";
 	process_cmd($cmd);
 
 }elsif($fast =~ /N/i and $bam){

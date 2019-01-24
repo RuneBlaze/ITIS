@@ -144,7 +144,7 @@ if($index_te){
 ##### align original reads to reference genome ######
 my $transformtobed_bam ;
 if($fast =~ /N/i and $bam == 0){
-	$cmd = "$bwa mem -T 20 -t $cpu_bwa $index_ref $rs1_ori $rs2_ori 2>/dev/null | samtools view -@ $cpu_view -buS - | samtools sort -@ $cpu_sort - $tmp_dir/$proj.all_reads_aln_ref_and_te.sort";
+	$cmd = "$bwa mem -T 20 -t $cpu_bwa $index_ref $rs1_ori $rs2_ori 2>/dev/null | samtools view -@ $cpu_view -buS - | samtools sort -@ $cpu_sort -T $tmp_dir/$proj.all_reads_aln_ref_and_te.sort";
 	process_cmd($cmd);
 	$transformtobed_bam = "-b $tmp_dir/$proj.all_reads_aln_ref_and_te.sort.bam";
 	
@@ -168,7 +168,7 @@ my $rds = "$tmp_dir/rds_te.fq1 $tmp_dir/rds_te.fq2";
 
 #######  align reads associate with TE to the merged reference sequence  #######
 
-$cmd = "$bwa mem -T 20 -v 1 -t $cpu_bwa $index_ref $rds 2>/dev/null  |tee  $tmp_dir/$proj.ref_and_te.sam | samtools view -@ $cpu_view -buS - | samtools sort -@ $cpu_sort  - $tmp_dir/$proj.ref_and_te.sorted";
+$cmd = "$bwa mem -T 20 -v 1 -t $cpu_bwa $index_ref $rds 2>/dev/null  |tee  $tmp_dir/$proj.ref_and_te.sam | samtools view -@ $cpu_view -buS - | samtools sort -@ $cpu_sort  -T $tmp_dir/$proj.ref_and_te.sorted";
 
 
 if (-e "$tmp_dir/$proj.ref_and_te.sam"){
@@ -205,7 +205,7 @@ foreach my $te (@tes){
 	
 	$cmd = "perl -I $bindir $bindir/modify_informative.pl $tmp_dir/$proj.$te.informative.sam > $tmp_dir/$proj.$te.informative.full.sam";
 	process_cmd($cmd);
-	$cmd = "samtools view -buS $tmp_dir/$proj.$te.informative.sam | samtools sort - $tmp_dir/$proj.$te.informative.sorted";
+	$cmd = "samtools view -buS $tmp_dir/$proj.$te.informative.sam | samtools sort -T $tmp_dir/$proj.$te.informative.sorted";
 	process_cmd($cmd);
 	$cmd = "samtools index $tmp_dir/$proj.$te.informative.sorted.bam";
 	process_cmd($cmd);
@@ -220,7 +220,7 @@ foreach my $te (@tes){
 	$cmd = "perl -I $bindir $bindir/identity_inser_sites.pl -s $tmp_dir/$proj.$te.informative.full.sam -g $index_ref -l $lib_len -n $te -r $tmp_dir/$proj.$te.alnte.sam -p $tmp_dir/$proj -a $lost";
 	process_cmd($cmd);
 
-	$cmd = "samtools view -buS $tmp_dir/${proj}.$te.support.reads.sam | samtools sort - $tmp_dir/${proj}.$te.support.reads.sorted ";
+	$cmd = "samtools view -buS $tmp_dir/${proj}.$te.support.reads.sam | samtools sort -T $tmp_dir/${proj}.$te.support.reads.sorted ";
 	process_cmd($cmd);
 	$cmd = "samtools index   $tmp_dir/${proj}.$te.support.reads.sorted.bam " ;
 	process_cmd($cmd);
